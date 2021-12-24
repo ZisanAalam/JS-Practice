@@ -68,7 +68,7 @@ let maxX = 800 - radius * 2;
 let maxY = 600 - radius * 2;
 let minX = 0;
 let minY = 0;
-for (let i = 0; i < 50; i++) {
+for (let i = 0; i < 100; i++) {
     let x = Math.floor(Math.random() * (maxX - minX + 1)) + minX;
     let y = Math.floor(Math.random() * (maxY - minY + 1)) + minY;
 
@@ -98,24 +98,25 @@ function move() {
         for (let i = 0; i < circles.length; i++) {
             circles[i].update();
 
-            for (let j = 0; j < circles.length; j++) {
-                let dis = (getDistance(circles[i].xDistance, circles[i].yDistance, circles[j].xDistance, circles[j].yDistance)) - (radius * 2)
-                if (dis < 0) {
+            if (i != 0) {
+                for (let j = 0; j < circles.length; j++) {
+                    let dis = (getDistance(circles[i].xDistance, circles[i].yDistance, circles[j].xDistance, circles[j].yDistance)) - (radius * 2)
+                    if (dis < 0) {
 
-                    circles[i].dx = -circles[i].dx;
-                    circles[i].dy = -circles[i].dy;
-                    circles[j].dx = -circles[j].dx;
-                    circles[j].dy = -circles[j].dy;
+                        circles[i].dx = -circles[i].dx;
+                        circles[i].dy = -circles[i].dy;
+                        circles[j].dx = -circles[j].dx;
+                        circles[j].dy = -circles[j].dy;
 
-                    // j = -1;
+                    }
                 }
-
-                // console.log(dis);
             }
 
 
+
+
         }
-    }, 10);
+    }, 1);
 }
 
 move();
