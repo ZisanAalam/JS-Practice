@@ -32,6 +32,26 @@ function Circle(x, y, radius, color) {
         box.appendChild(circle);
     }
 
+    this.xDistance = x;
+    this.yDistance = y;
+    this.dx = Math.random() - 0.5;
+    this.dy = Math.random() - 0.5;
+    this.update = function() {
+        if (this.xDistance + radius * 2 > 800 || this.xDistance < 0) {
+            this.dx = -this.dx
+        }
+        if (this.yDistance + radius * 2 > 600 || this.yDistance < 0) {
+            this.dy = -this.dy
+        }
+
+
+        this.xDistance += this.dx;
+        this.yDistance += this.dy;
+
+        this.circle.style.left = this.xDistance + 'px';
+        this.circle.style.top = this.yDistance + 'px';
+    }
+
 }
 
 function getDistance(x1, y1, x2, y2) {
@@ -43,12 +63,12 @@ function getDistance(x1, y1, x2, y2) {
 
 
 let circles = [];
-let radius = 80;
+let radius = 10;
 let maxX = 800 - radius * 2;
 let maxY = 600 - radius * 2;
 let minX = 0;
 let minY = 0;
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 50; i++) {
     let x = Math.floor(Math.random() * (maxX - minX + 1)) + minX;
     let y = Math.floor(Math.random() * (maxY - minY + 1)) + minY;
 
@@ -56,7 +76,7 @@ for (let i = 0; i < 5; i++) {
 
     if (circles.length != 0) {
         for (let j = 0; j < circles.length; j++) {
-            var dis = (getDistance(x, y, circles[j].x, circles[j].y)) - (radius * 2)
+            let dis = (getDistance(x, y, circles[j].x, circles[j].y)) - (radius * 2)
             if (dis < 0) {
                 x = Math.floor(Math.random() * (maxX - minX + 1)) + minX;
                 y = Math.floor(Math.random() * (maxY - minY + 1)) + minY;
@@ -71,6 +91,34 @@ for (let i = 0; i < 5; i++) {
     circles.push(new Circle(x, y, radius, 'blue'));
     circles[i].draw();
 }
+
+function move() {
+    setInterval(() => {
+        // circles[0].update();
+        for (let i = 0; i < circles.length; i++) {
+            circles[i].update();
+
+            for (let j = 0; j < circles.length; j++) {
+                let dis = (getDistance(circles[i].xDistance, circles[i].yDistance, circles[j].xDistance, circles[j].yDistance)) - (radius * 2)
+                if (dis < 0) {
+
+                    circles[i].dx = -circles[i].dx;
+                    circles[i].dy = -circles[i].dy;
+                    circles[j].dx = -circles[j].dx;
+                    circles[j].dy = -circles[j].dy;
+
+                    // j = -1;
+                }
+
+                // console.log(dis);
+            }
+
+
+        }
+    }, 10);
+}
+
+move();
 
 
 
